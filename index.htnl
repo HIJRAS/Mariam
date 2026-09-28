@@ -1,0 +1,562 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ذكريات ❤️</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+    font-family: Arial, sans-serif;
+}
+
+
+/* =========================
+   الشاشة الأولى
+========================= */
+
+#intro {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: black;
+}
+
+.photos {
+    position: absolute;
+    inset: -5%;
+}
+
+.photo {
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(0,0,0,.7);
+    filter: brightness(.45);
+}
+
+
+/* ترتيب أماكن الصور */
+
+.photo1 {
+    width: 36%;
+    height: 42%;
+    left: 2%;
+    top: 3%;
+    transform: rotate(-6deg);
+    background-image: url("photo1.jpg");
+}
+
+.photo2 {
+    width: 32%;
+    height: 43%;
+    right: 2%;
+    top: 1%;
+    transform: rotate(5deg);
+    background-image: url("photo2.jpg");
+}
+
+.photo3 {
+    width: 30%;
+    height: 37%;
+    left: 8%;
+    bottom: 1%;
+    transform: rotate(5deg);
+    background-image: url("photo3.jpg");
+}
+
+.photo4 {
+    width: 30%;
+    height: 39%;
+    right: 20%;
+    bottom: -3%;
+    transform: rotate(-5deg);
+    background-image: url("photo4.jpg");
+}
+
+.photo5 {
+    width: 27%;
+    height: 34%;
+    left: 38%;
+    top: 4%;
+    transform: rotate(2deg);
+    background-image: url("photo5.jpg");
+}
+
+.photo6 {
+    width: 25%;
+    height: 33%;
+    right: 1%;
+    top: 40%;
+    transform: rotate(-7deg);
+    background-image: url("photo6.jpg");
+}
+
+
+.dark {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.35);
+}
+
+
+.text {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    color: white;
+    padding: 25px;
+}
+
+.text h1 {
+    font-size: 45px;
+    margin-bottom: 20px;
+    text-shadow: 0 3px 15px black;
+}
+
+.text p {
+    font-size: 23px;
+    margin-bottom: 30px;
+    text-shadow: 0 3px 12px black;
+}
+
+
+button {
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    background: white;
+    color: black;
+    box-shadow: 0 5px 25px rgba(0,0,0,.6);
+}
+
+button:active {
+    transform: scale(.95);
+}
+
+
+/* =========================
+   شاشة القلب
+========================= */
+
+#heartScreen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: black;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     الشاشة الأولى
+========================= -->
+
+<div id="intro">
+
+    <div class="photos">
+
+        <!-- عندك photo6 هي الأولى
+             و photo1 هي الأخيرة -->
+
+        <div class="photo photo6"></div>
+        <div class="photo photo5"></div>
+        <div class="photo photo4"></div>
+        <div class="photo photo3"></div>
+        <div class="photo photo2"></div>
+        <div class="photo photo1"></div>
+
+    </div>
+
+
+    <div class="dark"></div>
+
+
+    <div class="text">
+
+        <h1>
+            من شخص 
+        </h1>
+ردت انطيج هديه هاج  
+        <p> 
+           
+        </p>
+
+        <button onclick="startHeart()">
+             🖕🏿🖕🏻
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     القلب
+========================= -->
+
+<div id="heartScreen">
+
+    <canvas id="heart"></canvas>
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   الانتقال للقلب
+========================= */
+
+function startHeart() {
+
+    document.getElementById("intro").style.display = "none";
+
+    document.getElementById("heartScreen").style.display = "block";
+
+    resize();
+
+    createHeart();
+
+}
+
+
+
+/* =========================
+   إعداد Canvas
+========================= */
+
+const canvas =
+    document.getElementById("heart");
+
+const ctx =
+    canvas.getContext("2d");
+
+
+function resize() {
+
+    canvas.width =
+        window.innerWidth;
+
+    canvas.height =
+        window.innerHeight;
+
+}
+
+resize();
+
+
+window.addEventListener(
+    "resize",
+    resize
+);
+
+
+
+/* =========================
+   معادلة القلب
+========================= */
+
+function heart(a, scale) {
+
+    const x =
+        16 *
+        Math.pow(Math.sin(a), 3) *
+        scale;
+
+
+    const y =
+        (
+            13 * Math.cos(a)
+            - 5 * Math.cos(2 * a)
+            - 2 * Math.cos(3 * a)
+            - Math.cos(4 * a)
+        ) * scale;
+
+
+    return {
+        x: x,
+        y: y
+    };
+
+}
+
+
+
+/* =========================
+   إنشاء الجزيئات
+========================= */
+
+function createHeart() {
+
+    const particles = [];
+
+
+    /* الجزء الداخلي */
+
+    for (
+        let i = 0;
+        i < 5000;
+        i++
+    ) {
+
+        const a =
+            Math.random() *
+            Math.PI * 2;
+
+
+        const sc =
+            0.5 +
+            Math.random() * 15.5;
+
+
+        const h =
+            heart(a, sc);
+
+
+        const ang =
+            Math.atan2(h.y, h.x)
+            +
+            (Math.random() - 0.5) * 0.5;
+
+
+        particles.push({
+
+            x: h.x,
+
+            y: h.y,
+
+            ang: ang,
+
+            length:
+                4 +
+                Math.random() * 10,
+
+            alpha:
+                0.35 +
+                Math.random() * 0.3
+
+        });
+
+    }
+
+
+
+    /* الحواف */
+
+    for (
+        let i = 0;
+        i < 3500;
+        i++
+    ) {
+
+        const a =
+            Math.random() *
+            Math.PI * 2;
+
+
+        const h =
+            heart(a, 16);
+
+
+        const ang =
+            Math.atan2(h.y, h.x)
+            +
+            (Math.random() - 0.5) * 0.35;
+
+
+        particles.push({
+
+            x:
+                h.x +
+                (Math.random() - 0.5) * 4,
+
+            y:
+                h.y +
+                (Math.random() - 0.5) * 4,
+
+            ang: ang,
+
+            length:
+                10 +
+                Math.random() * 22,
+
+            alpha:
+                0.55 +
+                Math.random() * 0.4
+
+        });
+
+    }
+
+
+
+    let progress = 0;
+
+
+
+    /* =========================
+       رسم القلب
+    ========================= */
+
+    function draw() {
+
+        ctx.fillStyle =
+            "rgba(0,0,0,0.25)";
+
+
+        ctx.fillRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+
+        ctx.save();
+
+
+        ctx.translate(
+            canvas.width / 2,
+            canvas.height / 2
+        );
+
+
+        const scale =
+            Math.min(
+                canvas.width,
+                canvas.height
+            ) / 700;
+
+
+        ctx.scale(
+            scale,
+            -scale
+        );
+
+
+        const visible =
+            Math.min(
+                particles.length,
+                Math.floor(progress)
+            );
+
+
+        for (
+            let i = 0;
+            i < visible;
+            i++
+        ) {
+
+            const p =
+                particles[i];
+
+
+            ctx.strokeStyle =
+                `rgba(
+                    255,
+                    ${80 + Math.random() * 120},
+                    ${165 + Math.random() * 90},
+                    ${p.alpha}
+                )`;
+
+
+            ctx.lineWidth = 0.7;
+
+
+            ctx.beginPath();
+
+
+            ctx.moveTo(
+                p.x,
+                p.y
+            );
+
+
+            ctx.lineTo(
+
+                p.x +
+                p.length *
+                Math.cos(p.ang),
+
+                p.y +
+                p.length *
+                Math.sin(p.ang)
+
+            );
+
+
+            ctx.stroke();
+
+        }
+
+
+        ctx.restore();
+
+
+
+        if (
+            progress <
+            particles.length
+        ) {
+
+            progress += 18;
+
+
+            setTimeout(
+                () =>
+                    requestAnimationFrame(draw),
+                12
+            );
+
+        }
+
+    }
+
+
+
+    draw();
+
+}
+
+
+</script>
+
+</body>
+</html>
+```
